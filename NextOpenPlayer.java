@@ -4,7 +4,6 @@
 */
 import java.util.*;
 public class NextOpenPlayer extends Player{
-  static Board b = new Board();
  /**
   *contructs new NextOpenPlayer object
   *@param board symbol, o or x
