@@ -32,8 +32,6 @@ public class NextOpenPlayer extends Player{
           } else continue;
         }
       }
-      System.out.println(col + ":" + row);
-
       b.fillPosition(row, col, symbol);
     }
   }

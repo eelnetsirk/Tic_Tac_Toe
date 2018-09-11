@@ -11,6 +11,7 @@
 import java.util.*;
 public class RandomPlayer extends Player{
   Random r = new Random();
+  static Board b = new Board();
   /**
   * Contructor for RandomPlayer object that makes a move among open positions at random.
   * @param symbol for which the player will be playing, Board.O or Board.X
@@ -25,54 +26,46 @@ public class RandomPlayer extends Player{
   * @param b board object on which we are to make a move.
   */
   public void makeMove(Board b){
-    
+    if(! b.boardFilled()){
+      int r = 0;//random number index that selects a position
+      List<int[]> arr = new ArrayList<int[]>();
+      //for loop to add all coordinates on the board into the arraylist
+      for(int i = 2; i > -1; i--){
+        for(int j = 0; j < 3; j++){
+          if(b.isOpen(i,j)){
+            int holder[] = {i,j};
+            arr.add(holder);
+          }
+        }
+      }
+      r = (int)(Math.random() * arr.size());
+      int col = arr.get(r)[0];
+      int row = arr.get(r)[1];
+      b.fillPosition(col,row,symbol);
+    }
   }
-
-
-  // public void makeMove(Board b){
-  //   if(! b.boardFilled()){
-  //     int[][] arr = new int[3][3];
-  //     int counter = 0;
-  //     int r;
-  //     int x = 0;
-  //     int y = 0;
-  //
-  //     for(int i = 2; i >= 0; i--){
-  //       for(int j = 0; j < 3; j++){
-  //         if(b.isOpen(i,j)){
-  //           counter ++;
-  //           arr[i][j] = counter;
-  //         }//end if
-  //       }//inner for
-  //     }//outer for
-  //     r = (int)((Math.random() * 3) + 1);
-  //     for(int i = 0; i < 3; i ++){
-  //       for(int j = 0; j < 3; j++){
-  //         if(arr[i][j] == r){
-  //           x = i;
-  //           y = j;
-  //         }
-  //       }
-  //     }
-  //     if(x == 0) x = 2;
-  //     else if (x == 2) x = 0;
-  //     b.fillPosition(x, y, symbol);
-  //   }//end if board filled
+  // public static void main(String[] args) {
+  //   RandomPlayer o = new RandomPlayer(Board.O, "o");
+  //   RandomPlayer x = new RandomPlayer(Board.X, "x");
+  //   o.makeMove(b);
+  //   System.out.println(b.toString());
+  //   x.makeMove(b);
+  //   System.out.println(b.toString());
+  //   o.makeMove(b);
+  //   System.out.println(b.toString());
+  //   x.makeMove(b);
+  //   System.out.println(b.toString());
+  //   o.makeMove(b);
+  //   System.out.println(b.toString());
+  //   x.makeMove(b);
+  //   System.out.println(b.toString());
+  //   o.makeMove(b);
+  //   System.out.println(b.toString());
+  //   x.makeMove(b);
+  //   System.out.println(b.toString());
+  //   o.makeMove(b);
+  //   System.out.println(b.toString());
+  //   x.makeMove(b);
+  //   System.out.println(b.toString());
   // }
-  // public void makeMove(Board b){
-  //   if(! b.boardFilled()){
-  //     int col = (int)(Math.random() * 2);
-  //     int row = (int)(Math.random() * 2);
-  //     if(b.isOpen(col, row)) b.fillPosition(col, row, symbol);
-  //   }
-  // }
-  public static void main(String[] args) {
-    Board b = new Board();
-    RandomPlayer x = new RandomPlayer(Board.X, "x");
-    RandomPlayer o = new RandomPlayer(Board.O, "o");
-    x.makeMove(b);
-    System.out.println(b.toString());
-    o.makeMove(b);
-    System.out.println(b.toString());
-  }
 }
