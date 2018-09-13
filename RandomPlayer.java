@@ -1,34 +1,34 @@
-/**Homework 2: Tic tac toe
-
-* The RandomPlayer class models a Tic-Tac-Toe player. When created,
-* instances of this class are told if they are playing X or O, and
-* given an identifying string. Then plays by moving to random open
-* spots on the board.
+/**
+* Homework 2: Tic Tac Toe, Random Player
 * @author Kristen Lee
-* @version 09-08-2018
-*
+* @version 09-10-2018
+* The CornerPlayer class models a Tic-Tac-Toe player. When created,
+* instances of this class are told if they are playing X or O, and
+* given an identifying string. Then plays by moving to a randomly selected
+* open spots on the board.
 */
 import java.util.*;
 public class RandomPlayer extends Player{
-  Random r = new Random();
+  Random random = new Random();
   static Board b = new Board();
+  List<int[]> arr = new ArrayList<int[]>();
   /**
   * Contructor for RandomPlayer object that makes a move among open positions at random.
   * @param symbol for which the player will be playing, Board.O or Board.X
-  * @param name String for which the player will be displayed as.
-  */
   public RandomPlayer(int symbol, String name){
-    super(symbol, name);
-  }
-
-  /**
-  * This method makes a move by randomly picking an open space on the board using Math.random.
   * @param b board object on which we are to make a move.
   */
+  public RandomPlayer(int symbol, String name){
+    super(symbol,name);
+  }
+  /**
+  * Method that makes a move by searching for all open spots on the board
+  * then picks a spot using math.random to pick from an array.
+  * @param board, board object in which the game is played on
+  */
   public void makeMove(Board b){
-    if(! b.boardFilled()){
+    if((b.getWinner() == -1)&&(!(b.boardFilled()))){
       int r = 0;//random number index that selects a position
-      List<int[]> arr = new ArrayList<int[]>();
       //for loop to add all coordinates on the board into the arraylist
       for(int i = 2; i > -1; i--){
         for(int j = 0; j < 3; j++){
@@ -41,31 +41,35 @@ public class RandomPlayer extends Player{
       r = (int)(Math.random() * arr.size());
       int col = arr.get(r)[0];
       int row = arr.get(r)[1];
+      System.out.println("spot filled at " + col + " , " + row);
       b.fillPosition(col,row,symbol);
     }
   }
-  // public static void main(String[] args) {
-  //   RandomPlayer o = new RandomPlayer(Board.O, "o");
-  //   RandomPlayer x = new RandomPlayer(Board.X, "x");
-  //   o.makeMove(b);
-  //   System.out.println(b.toString());
-  //   x.makeMove(b);
-  //   System.out.println(b.toString());
-  //   o.makeMove(b);
-  //   System.out.println(b.toString());
-  //   x.makeMove(b);
-  //   System.out.println(b.toString());
-  //   o.makeMove(b);
-  //   System.out.println(b.toString());
-  //   x.makeMove(b);
-  //   System.out.println(b.toString());
-  //   o.makeMove(b);
-  //   System.out.println(b.toString());
-  //   x.makeMove(b);
-  //   System.out.println(b.toString());
-  //   o.makeMove(b);
-  //   System.out.println(b.toString());
-  //   x.makeMove(b);
-  //   System.out.println(b.toString());
-  // }
+  /**
+  * Alternative method that takes an array and picks a random
+  * index from the array.
+  * @param array, with coordinates
+  */
+  protected void makeMove(ArrayList arr){
+    if((b.getWinner() == -1)&&(!(b.boardFilled()))){
+      if(arr.size() != 0){
+        int r = 0;
+        r = (int)(Math.random() * arr.size());
+        int col = arr.get(r)[0];
+        int row = arr.get(r)[1];
+        b.fillPosition(col,row,symbol);
+      }
+    }
+  }
+
+
+  public static void main(String[] args) {
+    Board b = new Board();
+    RandomPlayer x = new RandomPlayer(Board.X, "x");
+    RandomPlayer o = new RandomPlayer(Board.O, "o");
+    x.makeMove(b);
+    System.out.println(b.toString());
+    o.makeMove(b);
+    System.out.println(b.toString());
+  }
 }
