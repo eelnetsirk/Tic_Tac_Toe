@@ -12,6 +12,8 @@ public class RandomPlayer extends Player{
   Random random = new Random();
   static Board b = new Board();
   List<int[]> arr = new ArrayList<int[]>();
+
+
   /**
   * Contructor for RandomPlayer object that makes a move among open positions at random.
   * @param symbol for which the player will be playing, Board.O or Board.X
@@ -21,47 +23,30 @@ public class RandomPlayer extends Player{
   public RandomPlayer(int symbol, String name){
     super(symbol,name);
   }
-  /**
-  * Method that makes a move by searching for all open spots on the board
-  * then picks a spot using math.random to pick from an array.
-  * @param board, board object in which the game is played on
-  */
-  public void makeMove(Board b){
-    if((b.getWinner() == -1)&&(!(b.boardFilled()))){
-      int r = 0;//random number index that selects a position
-      //for loop to add all coordinates on the board into the arraylist
-      for(int i = 2; i > -1; i--){
-        for(int j = 0; j < 3; j++){
-          if(b.isOpen(i,j)){
-            int holder[] = {i,j};
-            arr.add(holder);
-          }
+
+/**
+* Method that makes a move by searching for all open spots on the board
+* then picks a spot using math.random to pick from an array.
+* @param board, board object in which the open spot coordinates are
+*/
+public void makeMove(Board b){
+  if((b.getWinner() == -1)&&(!(b.boardFilled()))){
+    int r = 0;//random number index that selects a position
+    for(int i = 2; i > -1; i--){
+      for(int j = 0; j < 3; j++){
+        if(b.isOpen(i,j)){
+          int holder[] = {i,j};
+          arr.add(holder);
         }
       }
-      r = (int)(Math.random() * arr.size());
-      int col = arr.get(r)[0];
-      int row = arr.get(r)[1];
-      System.out.println("spot filled at " + col + " , " + row);
-      b.fillPosition(col,row,symbol);
     }
+    r = (int)(Math.random() * arr.size());
+    int col = arr.get(r)[0];
+    int row = arr.get(r)[1];
+    System.out.println("spot filled at " + col + " , " + row);
+    b.fillPosition(col,row,symbol);
   }
-  /**
-  * Alternative method that takes an array and picks a random
-  * index from the array.
-  * @param array, with coordinates
-  */
-  protected void makeMove(ArrayList arr){
-    if((b.getWinner() == -1)&&(!(b.boardFilled()))){
-      if(arr.size() != 0){
-        int r = 0;
-        r = (int)(Math.random() * arr.size());
-        int col = arr.get(r)[0];
-        int row = arr.get(r)[1];
-        b.fillPosition(col,row,symbol);
-      }
-    }
-  }
-
+}
 
   public static void main(String[] args) {
     Board b = new Board();
