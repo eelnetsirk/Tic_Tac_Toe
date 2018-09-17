@@ -10,28 +10,23 @@
 import java.util.*;
 public class RandomPlayer extends Player{
   Random random = new Random();
-  static Board b = new Board();
   List<int[]> arr = new ArrayList<int[]>();
-
 
   /**
   * Contructor for RandomPlayer object that makes a move among open positions at random.
   * @param symbol for which the player will be playing, Board.O or Board.X
-  public RandomPlayer(int symbol, String name){
   * @param b board object on which we are to make a move.
   */
   public RandomPlayer(int symbol, String name){
     super(symbol,name);
   }
 
-/**
-* Method that makes a move by searching for all open spots on the board
-* then picks a spot using math.random to pick from an array.
-* @param board, board object in which the open spot coordinates are
-*/
-public void makeMove(Board b){
-  if((b.getWinner() == -1)&&(!(b.boardFilled()))){
-    int r = 0;//random number index that selects a position
+  /**
+  * Builds a list of available spaces.
+  * @param board, board object
+  */
+  public void buildListOfOpenSpaces(Board b) {
+    // build a list of available places to move
     for(int i = 2; i > -1; i--){
       for(int j = 0; j < 3; j++){
         if(b.isOpen(i,j)){
@@ -39,22 +34,33 @@ public void makeMove(Board b){
           arr.add(holder);
         }
       }
-    }
-    r = (int)(Math.random() * arr.size());
-    int col = arr.get(r)[0];
-    int row = arr.get(r)[1];
-    System.out.println("spot filled at " + col + " , " + row);
-    b.fillPosition(col,row,symbol);
+    } // end building list of available spaces
   }
-}
 
-  public static void main(String[] args) {
-    Board b = new Board();
-    RandomPlayer x = new RandomPlayer(Board.X, "x");
-    RandomPlayer o = new RandomPlayer(Board.O, "o");
-    x.makeMove(b);
-    System.out.println(b.toString());
-    o.makeMove(b);
-    System.out.println(b.toString());
+  /**
+  * Method that empties the arraylist of available spaces on the board when called
+  */
+  public void emptyListOfOpenSpaces(){
+    arr.clear();
+  }
+
+  /**
+  * Method that makes a move by searching for all open spots on the board
+  * then picks a spot using math.random to pick from an array.
+  * @param board, board object in which the open spot coordinates are
+  */
+  public void makeMove(Board b){
+    if(
+      (b.getWinner() == -1) && (!(b.boardFilled()))
+    ){
+      buildListOfOpenSpaces(b);
+      int r = (int)(Math.random() * arr.size()); //random number index that selects a position
+      int col = arr.get(r)[0];
+      int row = arr.get(r)[1];
+      b.fillPosition(col,row,symbol);
+      emptyListOfOpenSpaces();
+    } else if (b.getWinner() != -1) {
+      System.exit(0);
+    }
   }
 }
